@@ -1,3 +1,9 @@
+/* 定义css变量 */
+:root {
+  --primary-color: #ff9854;
+  --van-search-left-icon-color: var(--primary-color) !important;
+}
+
 /* 公共样式 */
 body {
   font-family: PingFangSC-Regular, Helvetica Neue, sans-serif;
@@ -5,7 +11,11 @@ body {
   background-color: #f7f8fb;
 }
 
-/* 定义css变量 */
-:root {
-  --primary-color: #ff9854;
+/* 通过样式，让有些页面不显示tabbar (原理是覆盖掉tabbar组件) */
+.top-page {
+  position: relative;
+  z-index: 9;
+  height: 100vh;
+  background: #fff;
+  overflow-y: auto;
 }
