@@ -1,6 +1,8 @@
 /* 定义css变量 */
 :root {
   --primary-color: #ff9854;
+  --line-color: #faf8f9;
+
   --van-search-left-icon-color: var(--primary-color) !important;
   --van-index-bar-index-active-color: var(--primary-color) !important;
   --van-index-anchor-sticky-text-color: var(--primary-color) !important;
@@ -10,7 +12,6 @@
 body {
   font-family: PingFangSC-Regular, Helvetica Neue, sans-serif;
   font-size: 14px;
-  background-color: #f7f8fb;
 }
 
 /* 通过样式，让有些页面不显示tabbar (原理是覆盖掉tabbar组件) */
@@ -20,4 +21,8 @@ body {
   height: 100vh;
   background: #fff;
   overflow-y: auto;
+}
+
+.bottom-gray-line {
+  border-bottom: 1px solid var(--line-color);
 }

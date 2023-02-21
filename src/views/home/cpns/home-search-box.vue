@@ -1,7 +1,7 @@
 <template>
   <div class="search-box">
     <!-- 我的位置 -->
-    <div class="location">
+    <div class="location bottom-gray-line">
       <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
       <div class="position" @click="positionOnClick">
         <span class="text">我的位置</span>
@@ -10,7 +10,7 @@
     </div>
 
     <!-- 日期范围 -->
-    <div class="section date-range" @click="showCalendar = true">
+    <div class="section date-range bottom-gray-line" @click="showCalendar = true">
       <div class="start">
         <div class="date">
           <span class="tip">入住</span>
@@ -27,9 +27,24 @@
     </div>
 
     <!-- 价格/人数 -->
-    <div class="section price-counter">
+    <div class="section price-counter bottom-gray-line">
       <div class="start">价格不限</div>
       <div class="end">人数不限</div>
+    </div>
+
+    <!-- 关键字 -->
+    <div class="section keyword bottom-gray-line">关键字/位置/民宿名</div>
+
+    <!-- 热门建议 -->
+    <div class="section hot-suggests">
+      <template v-for="(item, index) in hotSuggests" :key="index">
+        <div 
+          class="item" 
+          :style="{ color: item.tagText.color, backgroundColor: item.tagText.background.color }"
+        >
+          {{ item.tagText.text }}
+        </div>
+      </template>
     </div>
 
     <!-- 日期选择弹窗 -->
@@ -50,10 +65,12 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { storeToRefs } from "pinia";
 import useCityStore from "@/store/modules/city"
+import useHomeStore from '@/store/modules/home'
 import { formatMonthDay, getDiffDays } from "@/utils/format_date"
 
 const router = useRouter()
 const cityStore = useCityStore()
+const homeStore = useHomeStore()
 
 // 当前城市
 const { currentCity } = storeToRefs(cityStore)
@@ -98,6 +115,9 @@ const onConfirm = (value) => {
   stayCount.value = getDiffDays(selectStartDate, selectEndDate)
   showCalendar.value = false
 }
+
+// 热门建议
+const { hotSuggests } = storeToRefs(homeStore)
 
 </script>
 
@@ -181,6 +201,23 @@ const onConfirm = (value) => {
 
   .price-counter {
     height: 44px;
+    .start {
+      border-right: 1px solid var(--line-color);
+    }
+  }
+  
+  .keyword {
+    height: 44px;
+  }
+
+  .hot-suggests {
+    margin: 10px 0px;
+    .item {
+      padding: 4px 8px;
+      border-radius: 14px;
+      margin: 4px;
+      font-size: 12px;
+    }
   }
 }
 </style>
