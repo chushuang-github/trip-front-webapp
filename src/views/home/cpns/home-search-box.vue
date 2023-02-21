@@ -1,17 +1,56 @@
 <template>
-  <div class="location">
-    <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
-    <div class="position" @click="positionOnClick">
-      <span class="text">我的位置</span>
-      <img src="@/assets/img/home/icon_location.png" alt="">
+  <div class="search-box">
+    <!-- 我的位置 -->
+    <div class="location">
+      <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
+      <div class="position" @click="positionOnClick">
+        <span class="text">我的位置</span>
+        <img src="@/assets/img/home/icon_location.png" alt="">
+      </div>
     </div>
+
+    <!-- 日期范围 -->
+    <div class="section date-range" @click="showCalendar = true">
+      <div class="start">
+        <div class="date">
+          <span class="tip">入住</span>
+          <span class="time">{{ startDate }}</span>
+        </div>
+        <div class="stay">共{{ stayCount }}晚</div>
+      </div>
+      <div class="end">
+        <div class="date">
+          <span class="tip">离店</span>
+          <span class="time">{{ endDate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 价格/人数 -->
+    <div class="section price-counter">
+      <div class="start">价格不限</div>
+      <div class="end">人数不限</div>
+    </div>
+
+    <!-- 日期选择弹窗 -->
+    <van-calendar 
+      v-model:show="showCalendar" 
+      type="range"
+      color="#ff9854"
+      :formatter="formatter"
+      :round="false"
+      :show-confirm="false"
+      @confirm="onConfirm"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { storeToRefs } from "pinia";
-import useCityStore from '@/store/modules/city'
+import useCityStore from "@/store/modules/city"
+import { formatMonthDay, getDiffDays } from "@/utils/format_date"
 
 const router = useRouter()
 const cityStore = useCityStore()
@@ -32,34 +71,116 @@ const positionOnClick = () => {
     console.log(err)
   })
 }
+
+// 日期范围处理
+const nowDate = new Date() // 当前日期
+const newDate = new Date()
+newDate.setDate(nowDate.getDate() + 1) // 当前日期的后一天
+const startDate = ref(formatMonthDay(nowDate))
+const endDate = ref(formatMonthDay(newDate))
+const stayCount = ref(getDiffDays(nowDate, newDate))
+
+// 日期弹窗
+const showCalendar = ref(false)
+const formatter = (day) => {
+  if (day.type === 'start') {
+    day.bottomInfo = '入住'
+  } else if (day.type === 'end') {
+    day.bottomInfo = '离店'
+  }
+  return day
+}
+const onConfirm = (value) => {
+  const selectStartDate = value[0]
+  const selectEndDate = value[1]
+  startDate.value = formatMonthDay(selectStartDate)
+  endDate.value = formatMonthDay(selectEndDate)
+  stayCount.value = getDiffDays(selectStartDate, selectEndDate)
+  showCalendar.value = false
+}
+
 </script>
 
 <style lang="less" scoped>
-.location {
-  display: flex;
-  align-items: center;
-  height: 44px;
-  padding: 0 20px;
-  .city {
-    flex: 1;
-    color: #333;
-    font-size: 15px;
-  }
-  .position {
-    width: 74px;
+.search-box {
+  --van-calendar-popup-height: 100%;
+  .location {
     display: flex;
     align-items: center;
-    color: #666;
-    .text {
-      position: relative;
-      top: 1px;
+    height: 44px;
+    padding: 0 20px;
+    .city {
+      flex: 1;
+      color: #333;
+      font-size: 15px;
+    }
+    .position {
+      width: 74px;
+      display: flex;
+      align-items: center;
+      color: #666;
+      .text {
+        position: relative;
+        top: 1px;
+        font-size: 12px;
+      }
+      img {
+        margin-left: 5px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 20px;
+    color: #999;
+
+    .start {
+      flex: 1;
+      display: flex;
+      height: 44px;
+      align-items: center;
+    }
+
+    .end {
+      min-width: 30%;
+      padding-left: 20px;
+    }
+
+    .date {
+      display: flex;
+      flex-direction: column;
+
+      .tip {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .time {
+        margin-top: 3px;
+        color: #333;
+        font-size: 15px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .date-range {
+    height: 44px;
+    .stay {
+      flex: 1;
+      text-align: center;
       font-size: 12px;
+      color: #666;
     }
-    img {
-      margin-left: 5px;
-      width: 18px;
-      height: 18px;
-    }
+  }
+
+  .price-counter {
+    height: 44px;
   }
 }
 </style>
