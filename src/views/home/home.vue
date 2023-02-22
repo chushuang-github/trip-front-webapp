@@ -4,9 +4,9 @@
     <HomeBanner />
     <HomeSearchBox />
     <HomeCategory />
-
-    <div v-if="isShowSearchBar">我是搜索内容</div>
-
+    <div class="search-bar" v-if="isShowSearchBar">
+      <SearchBar />
+    </div>
     <HomeContent />
   </div>
 </template>
@@ -17,6 +17,7 @@ import HomeNavBar from './cpns/home-nav-bar.vue';
 import HomeBanner from './cpns/home-banner.vue'
 import HomeSearchBox from './cpns/home-search-box.vue'
 import HomeCategory from './cpns/home-category.vue';
+import SearchBar from '@/components/search-bar/search-bar.vue'
 import HomeContent from './cpns/home-content.vue'
 import useHomeStore from '@/store/modules/home'
 import useScroll from '@/hooks/useScroll'
@@ -40,12 +41,22 @@ watch(isReachBottom, (newValue) => {
 })
 
 // 搜索框显示控制
-const isShowSearchBar = computed(() => scrollTop.value >= 100)
+const isShowSearchBar = computed(() => scrollTop.value >= 360)
 
 </script>
 
 <style lang="less" scoped>
 .home {
   padding-bottom: 50px;
+  .search-bar {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    padding: 16px 16px 10px;
+    background: #fff;
+  }
 }
 </style>
