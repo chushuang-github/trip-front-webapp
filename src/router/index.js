@@ -8,6 +8,7 @@ const routes = [
   { path: "/message", component: () => import("@/views/message/message.vue") },
   { path: "/order", component: () => import("@/views/order/order.vue") },
   { path: "/city", component: () => import("@/views/city/city.vue") },
+  { path: "/search", component: () => import("@/views/search/search.vue") },
 ]
 
 // 通过createRouter函数创建路由对象

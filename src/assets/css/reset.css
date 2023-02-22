@@ -1,4 +1,7 @@
 /* 自定义重置样式表 */
+html {
+  line-height: 1.2;
+}
 body, h1, h2, h3, h4, ul, li {
   padding: 0;
   margin: 0;
