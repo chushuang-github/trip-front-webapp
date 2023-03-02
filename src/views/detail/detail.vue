@@ -8,8 +8,9 @@
       @click-left="onClickLeft"
     />
     <div class="main" v-if="mainPart">
-      <!-- 轮播图 -->
       <DetailSwipe :swipeData="mainPart.topModule.housePicture.housePics" />
+      <DetailInfos :topInfos="mainPart.topModule" />
+      <DetailFacility :houseFacility="mainPart.dynamicModule.facilityModule.houseFacility" />
     </div>
   </div>
 </template>
@@ -17,7 +18,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
-import DetailSwipe from './cpns/detail-swipe.vue'
+import DetailSwipe from './cpns/detail-01-swipe.vue'
+import DetailInfos from './cpns/detail-02-infos.vue';
+import DetailFacility from './cpns/detail-03-facility.vue';
 import { getDetailInfos } from "@/service"
 
 const router = useRouter()
