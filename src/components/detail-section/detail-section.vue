@@ -6,7 +6,7 @@
     <div class="content">
       <slot>我是默认内容</slot>
     </div>
-    <div class="footer" v-if="!moreText.length">
+    <div class="footer" v-if="moreText.length">
       <span class="more">
         {{ moreText }}
         <van-icon name="arrow" />

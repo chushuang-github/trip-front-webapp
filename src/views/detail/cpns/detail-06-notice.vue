@@ -6,7 +6,6 @@
           <div class="item">
             <span class="title">{{ item.title }}</span>
             <span class="intro">{{ item.introduction }}</span>
-            <span class="tip" v-if="item.tips">查看说明</span>
           </div>
         </template>
       </div>
@@ -14,7 +13,7 @@
   </div>
 </template>
 
-<script setup name="notice">
+<script setup>
 import { defineProps } from "vue";
 import DetailSection from "@/components/detail-section/detail-section.vue"
 

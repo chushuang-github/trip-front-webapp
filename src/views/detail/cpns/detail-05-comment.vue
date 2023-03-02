@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DetailSection title="热门评论" :moreText="'查看全部37条评论'">
+    <DetailSection title="热门评论" :moreText="`查看全部${comment.totalCount}条评论`">
       <div class="comment">
         <div class="header">
           <div class="left">
@@ -24,8 +24,7 @@
         </div>
         <div class="tags">
           <template v-for="(item, index) in comment.commentTagVo" :key="index">
-            <span class="item" 
-                  :style="{ color: item.color, background: item.backgroundColor }">
+            <span class="item" :style="{ color: item.color, background: item.backgroundColor }">
               {{ item.text }}
             </span>
           </template>
@@ -49,7 +48,7 @@
   </div>
 </template>
 
-<script setup name="comment">
+<script setup>
 import { defineProps } from "vue";
 import DetailSection from "@/components/detail-section/detail-section.vue"
 
@@ -81,18 +80,20 @@ defineProps({
         font-weight: 600;
 
         .text {
+          position: relative;
+          top: -6px;
           font-size: 48px;
           position: relative;
           z-index: 9;
         }
 
         .line {
-          width: 66px;
+          width: 71px;
           height: 6px;
           background: linear-gradient(90deg, #fa8c1d, #fcaf3f);
           border-radius: 3px;
           position: absolute;
-          bottom: 6px;
+          bottom: 7px;
           z-index: 5;
         }
       }

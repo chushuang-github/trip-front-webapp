@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup name="landloard">
+<script setup>
 import { defineProps } from "vue";
 import DetailSection from "@/components/detail-section/detail-section.vue"
 
