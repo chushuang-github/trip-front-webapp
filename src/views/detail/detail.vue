@@ -11,6 +11,7 @@
       <DetailSwipe :swipeData="mainPart.topModule.housePicture.housePics" />
       <DetailInfos :topInfos="mainPart.topModule" />
       <DetailFacility :houseFacility="mainPart.dynamicModule.facilityModule.houseFacility" />
+      <DetailLandlord :landlord="mainPart.dynamicModule.landlordModule"/>
     </div>
   </div>
 </template>
@@ -21,6 +22,7 @@ import { useRoute, useRouter } from 'vue-router';
 import DetailSwipe from './cpns/detail-01-swipe.vue'
 import DetailInfos from './cpns/detail-02-infos.vue';
 import DetailFacility from './cpns/detail-03-facility.vue';
+import DetailLandlord from './cpns/detail-04-landlord.vue';
 import { getDetailInfos } from "@/service"
 
 const router = useRouter()
