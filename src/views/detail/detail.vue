@@ -14,6 +14,8 @@
       <DetailLandlord :landlord="mainPart.dynamicModule.landlordModule"/>
       <DetailComment :comment="mainPart.dynamicModule.commentModule"/>
       <DetailNotice :order-rules="mainPart.dynamicModule.rulesModule.orderRules"/>
+      <DetailMap :position="mainPart.dynamicModule.positionModule" />
+      <DetailIntro :intro="mainPart.introductionModule" />
     </div>
   </div>
 </template>
@@ -27,6 +29,8 @@ import DetailFacility from './cpns/detail-03-facility.vue';
 import DetailLandlord from './cpns/detail-04-landlord.vue';
 import DetailComment from './cpns/detail-05-comment.vue'
 import DetailNotice from './cpns/detail-06-notice.vue'
+import DetailMap from './cpns/detail-07-map.vue'
+import DetailIntro from './cpns/detail-08-intro.vue'
 import { getDetailInfos } from "@/service"
 
 const router = useRouter()
