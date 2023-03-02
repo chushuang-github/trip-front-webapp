@@ -12,6 +12,8 @@
       <DetailInfos :topInfos="mainPart.topModule" />
       <DetailFacility :houseFacility="mainPart.dynamicModule.facilityModule.houseFacility" />
       <DetailLandlord :landlord="mainPart.dynamicModule.landlordModule"/>
+      <DetailComment :comment="mainPart.dynamicModule.commentModule"/>
+      <DetailNotice :order-rules="mainPart.dynamicModule.rulesModule.orderRules"/>
     </div>
   </div>
 </template>
@@ -23,6 +25,8 @@ import DetailSwipe from './cpns/detail-01-swipe.vue'
 import DetailInfos from './cpns/detail-02-infos.vue';
 import DetailFacility from './cpns/detail-03-facility.vue';
 import DetailLandlord from './cpns/detail-04-landlord.vue';
+import DetailComment from './cpns/detail-05-comment.vue'
+import DetailNotice from './cpns/detail-06-notice.vue'
 import { getDetailInfos } from "@/service"
 
 const router = useRouter()

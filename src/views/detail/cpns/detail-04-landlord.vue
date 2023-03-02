@@ -41,6 +41,7 @@
 </template>
 
 <script setup name="landloard">
+import { defineProps } from "vue";
 import DetailSection from "@/components/detail-section/detail-section.vue"
 
 defineProps({
