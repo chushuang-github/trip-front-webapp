@@ -22,6 +22,7 @@ defineProps({
 <style lang="less" scoped>
 .intro {
   padding: 16px 12px;
+  border-top: 5px solid #f2f3f4;
 
   .title {
     font-size: 14px;
