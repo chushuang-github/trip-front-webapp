@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineExpose } from 'vue';
 
 defineProps({
   titles: {
@@ -31,6 +31,15 @@ const itemClick = (index) => {
   currentIndex.value = index
   emit("itemClick", index)
 }
+
+// 给外面组件使用，修改currentIndex
+const setCurrentIndex = (index) => {
+  currentIndex.value = index
+}
+
+defineExpose({
+  setCurrentIndex
+})
 
 </script>
 

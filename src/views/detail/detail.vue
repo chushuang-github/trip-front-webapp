@@ -1,9 +1,10 @@
 <template>
-  <div class="top-page" ref="detailRef">
+  <div class="top-page detail" ref="detailRef">
     <TabControl
       v-if="showTabControl"
       class="tabs"
       :titles="titles"
+      ref="tabControlRef"
       @itemClick="itemClick"
     />
     <!-- 导航 -->
@@ -27,11 +28,12 @@
       <img src="@/assets/img/detail/icon_ensure.png" alt="">
       <div class="text">弘源旅途, 永无止境!</div>
     </div>
+    <DetailActionBar :current-house="detailInfo.currentHouse"/>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import DetailSwipe from './cpns/detail-01-swipe.vue'
 import DetailInfos from './cpns/detail-02-infos.vue';
@@ -42,6 +44,7 @@ import DetailNotice from './cpns/detail-06-notice.vue'
 import DetailMap from './cpns/detail-07-map.vue'
 import DetailIntro from './cpns/detail-08-intro.vue'
 import TabControl from '@/components/tab-control/tab-control.vue'
+import DetailActionBar from './cpns/detail-action-bar.vue'
 import { getDetailInfos } from "@/service"
 import useScroll from "@/hooks/useScroll"
 
@@ -63,7 +66,7 @@ const onClickLeft = () => {
 // tabControl相关操作
 const detailRef = ref()
 const { scrollTop } = useScroll(detailRef)
-const showTabControl = computed(() => scrollTop.value > 280)
+const showTabControl = computed(() => scrollTop.value > 255)
 const sectionEls = ref({})
 const titles = computed((() => {
   return Object.keys(sectionEls.value)
@@ -73,45 +76,78 @@ const getSectionRef = (value) => {
   const name = value.$el.getAttribute("name")
   sectionEls.value[name] = value.$el
 }
+// 点击tabControl，页面滚动到对应的位置
+let isClick = ref(false) // 是否是点击滚动
+let currentDistance = -1 // 当前滚动的位置
 const itemClick = (index) => {
   const key = Object.keys(sectionEls.value)[index]
   const el = sectionEls.value[key]
-  let instance = el.offsetTop
-  if(index !== 0) {
-    instance -= 44
-  }
+  let distance = el.offsetTop - 40
+
+  isClick.value = true
+  currentDistance = distance
+
   detailRef.value.scrollTo({
-    top: instance,
+    top: distance,
     behavior: 'smooth'
   })
 }
 
+// 页面滚动，tabControl显示到对应的索引位置
+const tabControlRef = ref()
+watch(scrollTop, (newValue) => {
+  if(newValue === currentDistance) {
+    isClick.value = false
+  }
+  if(isClick.value) return false
+
+  // 1、取所有区域的offsetTop
+  const els = Object.values(sectionEls.value)
+  const values = els.map(el => el.offsetTop)
+
+  // 2、根据页面滚动的scrollTop值，去匹配value
+  // 一直再变化的一直值(scrollTop)，去一个数组里面寻找位置的一个算法
+  let index = values.length - 1
+  for(let i = 0; i < values.length; i++) {
+    if(values[i] > newValue + 40) {
+      index = i - 1
+      break
+    }
+  }
+
+  // 3、设置tabControl索引
+  tabControlRef.value?.setCurrentIndex(index)
+})
+
 </script>
 
 <style lang="less" scoped>
-.tabs {
-  position: fixed;
-  z-index: 9;
-  left: 0;
-  right: 0;
-  top: 0;
-  background: #fff;
-}
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 120px;
-
-  img {
-    width: 123px;
+.detail {
+  padding-bottom: 60px;
+  .tabs {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: #fff;
   }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
 
-  .text {
-    margin-top: 12px;
-    font-size: 12px;
-    color: #7688a7;
+    img {
+      width: 123px;
+    }
+
+    .text {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #7688a7;
+    }
   }
 }
 </style>
