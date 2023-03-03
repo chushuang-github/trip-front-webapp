@@ -124,6 +124,7 @@ watch(scrollTop, (newValue) => {
 <style lang="less" scoped>
 .detail {
   padding-bottom: 60px;
+  box-sizing: border-box;
   .tabs {
     position: fixed;
     z-index: 999;

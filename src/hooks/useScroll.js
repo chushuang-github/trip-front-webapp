@@ -37,6 +37,8 @@ export default function useScroll(elRef, callback) {
   })
 
   onActivated(() => {
+    // 如果该组件是被keep-alive缓存的，页面切换的时候，保留组件的位置
+    el.scrollTop = scrollTop.value
     el.addEventListener('scroll', scrollListenerHandler)
   })
   onDeactivated(() => {
